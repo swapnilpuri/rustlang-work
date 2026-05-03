@@ -1,0 +1,48 @@
+
+Basic commands
+- rustc
+- cargo
+- rustup
+
+--Rust documentation
+rustup doc
+
+-- Adding dependencies
+-- Basic usuage
+cargo add oracle
+cargo add prettytable-rs
+
+-- both in one shot:
+bashcargo add oracle prettytable-rs
+
+Specific version:
+cargo add oracle@0.6.3
+
+With features enabled:
+cargo add oracle --features chrono
+cargo add tokio --features full
+
+As a dev-dependency (for tests/benchmarks):
+cargo add --dev mockall
+
+As a build-dependency:
+cargo add --build cc
+
+From a git repo:
+cargo add some-crate --git https://github.com/user/repo
+cargo add some-crate --git https://github.com/user/repo --branch main
+
+From a local path (handy for workspaces):
+cargo add my-lib --path ../my-lib
+
+Rename a dependency:
+cargo add serde --rename my-serde
+
+Disable default features:
+cargo add reqwest --no-default-features --features rustls-tls
+
+Removing dependencies
+The counterpart is cargo remove:
+cargo remove prettytable-rs
+
+

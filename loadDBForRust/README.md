@@ -1,0 +1,1 @@
+uv run insert_balance_forecast.py <num_records>

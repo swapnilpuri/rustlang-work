@@ -1,0 +1,13 @@
+
+Add dependencies
+cargo add oracle
+cargo add prettytable-rs
+
+Add docker image
+docker pull container-registry.oracle.com/database/free:latest
+
+let username = "appuser";
+let password = "appuserpass";
+let conn_str = "//localhost:1521/FREEPDB1";
+
+

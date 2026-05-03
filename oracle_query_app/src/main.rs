@@ -1,0 +1,65 @@
+use oracle::{Connection, Result};
+use prettytable::{Cell, Row, Table};
+
+
+
+fn main() -> Result<()> {
+
+    //1. Connect to Oracle Database
+    let username = "appuser";
+    let password = "appuserpass";
+    let connect_string = "//localhost:1521/FREEPDB1"; // Adjust as
+
+
+
+    // Establish a connection to the Oracle database
+    let conn = Connection::connect(username, password, connect_string)?;
+
+    //Run a Select query with bind parameters
+    let sql = "SELECT * FROM BALANCE_FORECAST_MODEL
+                        WHERE PRODUCT_TYPE = :product_type
+                        AND ROWNUM <= 10"; // Limit to 10 rows for demonstration
+
+    let product_type = "LOAN"; // Replace with the actual product type
+
+    //Collect into Vec
+    let rows: Vec<oracle::Row> = conn.query(sql, &[&product_type])?.collect::<Result<Vec<_>>>()?;
+
+    println!("Query executed successfully. Number of rows returned: {}", rows.len());
+
+    // Create a table to display the results
+    let mut table = Table::new();
+    table.add_row(Row::new(vec![
+        Cell::new("ENTITY_ID"),
+        Cell::new("BUSINESS_UNIT"),
+        Cell::new("PRODUCT_TYPE"),
+        Cell::new("PRODUCT_SUBTYPE"),
+        Cell::new("CURRENCY_CODE"),
+        Cell::new("CUSTOMER_SEGMENT"),
+
+    ]));
+
+    // Iterate through the result set and add rows to the table
+    for row in &rows {
+        let entity_id: String = row.get(0)?;
+        let business_unit: String = row.get(1)?;
+        let product_type: String = row.get(2)?;
+        let product_subtype: String = row.get(3)?;
+        let curreny_code: String = row.get(4)?;
+        let customer_segment: String = row.get(5)?;
+
+        table.add_row(Row::new(vec![
+            Cell::new(&entity_id),
+            Cell::new(&business_unit),
+            Cell::new(&product_type),
+            Cell::new(&product_subtype),
+            Cell::new(&curreny_code),
+            Cell::new(&customer_segment),
+        ]));
+    }
+
+    // Print the table
+    table.printstd();
+
+    Ok(())
+}

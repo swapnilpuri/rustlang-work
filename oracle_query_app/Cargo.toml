@@ -1,0 +1,8 @@
+[package]
+name = "oracle_query_app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+oracle = "0.6"
+prettytable-rs = "0.10"
