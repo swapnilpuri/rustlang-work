@@ -1,7 +1,24 @@
 use oracle::{Connection, Result};
 use prettytable::{Cell, Row, Table};
+use clap::Parser;
 
+use arrow::array::{StringArray, Float64Array, ArrayRef, Int32Array};
+use arrow::datatypes::{DataType, Field, Schema};
+use arrow::record_batch::RecordBatch;
+use parquet::arrow::ArrowWriter;
+use parquet::basic::Compression;
+use parquet::file::properties::WriterProperties;
 
+use std::fs::File;
+use std::path::Path;
+use std::sync::Arc;
+
+#[derive(Parser, Debug)]
+#[command(version, about = "A Rust application to query Oracle Database and display results in a table format.")]
+struct Args {
+    #[arg(short, long, help = "Output file path for the Parquet file")]
+    output: String,
+}
 
 fn main() -> Result<()> {
 
@@ -61,5 +78,17 @@ fn main() -> Result<()> {
     // Print the table
     table.printstd();
 
+    Ok(())
+}
+
+fn write_parquet_file(file_path: &str, record_batch: RecordBatch) -> parquet::errors::Result<()> {
+    let file = File::create(file_path)?;
+    let schema = record_batch.schema();
+    let props = WriterProperties::builder()
+        .set_compression(Compression::SNAPPY)
+        .build();
+    let mut writer = ArrowWriter::try_new(file, Arc::new(schema), Some(props))?;
+    writer.write(&record_batch)?;
+    writer.close()?;
     Ok(())
 }

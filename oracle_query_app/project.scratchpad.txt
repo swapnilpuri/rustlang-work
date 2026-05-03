@@ -11,3 +11,11 @@ let password = "appuserpass";
 let conn_str = "//localhost:1521/FREEPDB1";
 
 
+Add the new dependencies
+cargo add arrow
+cargo add parquet
+cargo add clap --features derive
+
+arrow — columnar in-memory format (Parquet is built on top of it)
+parquet — read/write Parquet files
+clap — ergonomic CLI argument parsing with the derive feature
