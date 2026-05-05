@@ -55,6 +55,7 @@ fn main() -> Result<()> {
         Cell::new("CUSTOMER_SEGMENT"),
 
     ]));
+   
 
     // Iterate through the result set and add rows to the table
     for row in &rows {
