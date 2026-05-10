@@ -6,6 +6,6 @@ edition = "2024"
 [dependencies]
 arrow = "58.2.0"
 clap = { version = "4.6.1", features = ["derive"] }
+core_affinity = "0.8"
 oracle = "0.6"
 parquet = "58.2.0"
-prettytable-rs = "0.10"

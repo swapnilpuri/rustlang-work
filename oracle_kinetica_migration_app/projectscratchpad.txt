@@ -1,0 +1,13 @@
+curl https://files.kinetica.com/install/kinetica.sh -o kinetica && chmod u+x kinetica && ./kinetica start
+
+
+Start Kinetica
+The Kinetica shell script manages your installation, starts, and stops the database.
+
+For GPU instances:
+
+./kinetica --gpu start
+
+For CPU instances:
+
+./kinetica start

@@ -19,3 +19,5 @@ cargo add clap --features derive
 arrow — columnar in-memory format (Parquet is built on top of it)
 parquet — read/write Parquet files
 clap — ergonomic CLI argument parsing with the derive feature
+
+cargo run -- --output c:\tmp\result.parquet

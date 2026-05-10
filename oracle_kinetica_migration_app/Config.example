@@ -1,0 +1,50 @@
+# ora2kinetica configuration.
+#
+# Pass this to the loader with:
+#   ora2kinetica --config ./config.toml --sql-file ./query.sql
+#
+# Lock down the file's permissions (`chmod 600 config.toml`) since it
+# contains credentials. For production, prefer reading secrets from a
+# secret manager and templating this file at deploy time.
+
+[oracle]
+# EZConnect string -- "host:port/SERVICE"
+dsn      = "dbhost.example.com:1521/ORCLPDB1"
+user     = "scott"
+password = "tiger"
+
+# Column to hash for partitioning across reader tasks.
+# - ROWID: works on any table; each reader server-scans and Oracle filters server-side.
+# - A numeric PK column: index-friendly, much cheaper if available.
+# Default: "ROWID"
+partition_column = "ID"
+
+# Rows per fetch_more round-trip. Bigger = fewer turns; 5k-20k typical.
+# Default: 10000
+fetch_size = 10000
+
+
+[kinetica]
+url      = "https://kinetica.example.com:9191"
+user     = "admin"
+password = "change-me"
+table    = "transactions"
+
+
+# Optional. Omit the entire section to accept all defaults.
+[pipeline]
+# Concurrent Oracle reader tasks (= concurrent Connections). Default: 8
+threads = 8
+
+# Concurrent Kinetica writer tasks. Default: 4
+writers = 4
+
+# Records per HTTP POST to Kinetica. Default: 5000
+batch_size = 5000
+
+# Max queued batches between readers and writers.
+# RAM ceiling ~= channel_capacity * batch_size rows. Default: 64
+channel_capacity = 64
+
+# Retries per failed Kinetica POST (exponential backoff). Default: 5
+max_retries = 5
