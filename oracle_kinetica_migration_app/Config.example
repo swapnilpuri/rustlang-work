@@ -9,9 +9,9 @@
 
 [oracle]
 # EZConnect string -- "host:port/SERVICE"
-dsn      = "dbhost.example.com:1521/ORCLPDB1"
-user     = "scott"
-password = "tiger"
+dsn      = "localhost:1521/FREEPDB1"
+user     = "appuser"
+password = "appuserpass"
 
 # Column to hash for partitioning across reader tasks.
 # - ROWID: works on any table; each reader server-scans and Oracle filters server-side.
